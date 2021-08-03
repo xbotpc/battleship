@@ -1,0 +1,7 @@
+@import '../../styles/common.scss';
+
+button {
+    &.invisible {
+        @include inviButton;
+    }   
+}
