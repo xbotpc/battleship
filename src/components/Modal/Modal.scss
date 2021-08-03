@@ -1,0 +1,19 @@
+.hidden {
+    position        : absolute;
+    top             : 0;
+    left            : 0;
+    z-index         : 69;
+    display         : none;
+    visibility      : hidden;
+    cursor          : none;
+    appearance      : none;
+    font-size       : 0;
+    letter-spacing  : 0;
+    line-height     : 0;
+    color           : transparent;
+    background-color: transparent;
+    border          : none;
+    box-shadow      : none;
+    height          : 0;
+    width           : 0;
+}
