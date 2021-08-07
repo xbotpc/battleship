@@ -1,0 +1,122 @@
+.block {
+    display              : grid;
+    grid-template-columns: 1fr;
+    grid-template-rows   : 1fr;
+    align-items          : center;
+    justify-items        : right;
+    height               : 40px;
+    width                : 40px;
+    background-color     : #daf2fc;
+    position             : relative;
+    border-radius        : 4px;
+
+    &.highlight {
+        background-color: #7199a9;
+    }
+
+    .ship {
+        width          : 100%;
+        height         : 100%;
+        display        : flex;
+        align-items    : center;
+        justify-content: center;
+
+        &.isActive {
+            background-color: #cacbd8;
+        }
+
+        &.isHighlighted {
+            background-color: #e4e4e4;
+        }
+
+        &.start {
+            width    : 100%;
+            clip-path: polygon(58.33% 4.17%, 99.62% 46.76%, 99.33% 54.4%, 56.25% 95.84%, 0% 100%, 0% 0%);
+        }
+
+        &.up {
+
+            &.start {
+                transform: rotateZ(-90deg);
+            }
+
+            &.blockPiece {
+                justify-self: center;
+                align-self  : stretch;
+                height      : 100%;
+            }
+
+            &.end {
+                border-radius: 0 0 50% 50%;
+                justify-self : center;
+                align-self   : flex-start;
+            }
+        }
+
+        &.down {
+
+            &.start {
+                transform: rotateZ(90deg);
+            }
+
+            &.blockPiece {
+                justify-self: center;
+                align-self  : stretch;
+                height      : 100%;
+            }
+
+            &.end {
+                border-radius: 50% 50% 0 0;
+                justify-self : center;
+                align-self   : flex-end;
+            }
+        }
+
+        &.left {
+
+            &.start {
+                transform: rotateZ(180deg);
+            }
+
+            &.blockPiece {
+                justify-self: stretch;
+                width       : 100%;
+            }
+
+            &.end {
+                border-radius: 0 50% 50% 0;
+                justify-self : left;
+            }
+        }
+
+        &.right {
+
+            &.blockPiece {
+                justify-self: stretch;
+                width       : 100%;
+            }
+
+            &.end {
+                border-radius: 50% 0 0 50%;
+            }
+        }
+
+        .piece {
+            height          : 43.35%;
+            width           : 43.35%;
+            border-radius   : 50%;
+            background-color: #898687;
+
+            &.hit {
+                background-color: #fd004c;
+            }
+        }
+
+        &.end {
+            .piece {
+                // height: 39%;
+                // width : 39%;
+            }
+        }
+    }
+}
