@@ -6,6 +6,7 @@ import Block from "../Block/Block";
 import styles from './Gameboard.module.scss';
 
 type TGameState = Array<Array<TShipBlock>>;
+type TBlockUpdaterFunction = (block: TShipBlock, direction?: TShipDirection, isStart?: boolean, isEnd?: boolean) => TShipBlock
 
 const getDirection = (key: string) => {
     if (key === 'w' || key === 'ArrowUp') {
@@ -35,7 +36,7 @@ const getNextLineID = (direction: TShipDirection, lineID: number) => {
     if (direction === 'down') {
         return (i: number) => lineID - i;
     }
-    return (i: number) => lineID;
+    return (i?: number) => lineID;
 }
 
 /**
@@ -47,12 +48,14 @@ const getNextLineID = (direction: TShipDirection, lineID: number) => {
 const getNextBlockID = (direction: TShipDirection, blockID: number) => {
     if (direction === 'right') {
         return (i: number) => blockID - i;
-    } else if (direction === 'left') {
+    }
+    if (direction === 'left') {
         return (i: number) => blockID + i;
-    } return (i: number) => blockID;
+    }
+    return (i?: number) => blockID;
 }
 
-const highlightBlock = (block: TShipBlock, direction: TShipDirection, isStartBlock: boolean, isEndBlock: boolean) => {
+const highlightBlock = (block: TShipBlock, direction: TShipDirection = '', isStartBlock = false, isEndBlock = false) => {
     block.on = false;
     block.highlight = true;
     block.start = isStartBlock;
@@ -195,47 +198,76 @@ const Gameboard = ({ name = '' }: { name?: string }): JSX.Element => {
         ]
     ]);
     const [previousLineIDBlockID, setPreviousLineIDBlockID] = useState<Array<number>>([-1, -1]);
-    const [currentDirection, setCurrentDirection] = useState<TShipDirection>('up')
+    const [currentDirection, setCurrentDirection] = useState<TShipDirection>('up');
+
+    const isOutOfBounds = (_gameState: TGameState, direction: TShipDirection, shipLength: number, lineID: number, blockID: number) => {
+        const outOfBoundsLineIDFunc = getNextLineID(direction, lineID);
+        const outOfBoundsBlockIDFunc = getNextBlockID(direction, blockID);
+        let notOutOfBounds = true;
+
+        for (let i = 0; i < shipLength; i++) {
+            const lineID = outOfBoundsLineIDFunc(i);
+            const blockID = outOfBoundsBlockIDFunc(i);
+            if (!((lineID >= 0 && lineID <= 9) &&
+                (blockID >= 0 && blockID <= 9))) {
+                notOutOfBounds = false;
+                break;
+            }
+            if (_gameState[lineID][blockID]?.on) {
+                notOutOfBounds = false;
+                break;
+            }
+        }
+        return notOutOfBounds;
+    }
+
+    const updateBoard = (_gameState: TGameState, direction: TShipDirection, lineID: number, blockID: number, shipLength: number, blockUpdater: TBlockUpdaterFunction) => {
+        const lineIDHighlightFunc = getNextLineID(direction, lineID);
+        const blockIDHighlightFunc = getNextBlockID(direction, blockID);
+
+        for (let i = 0; i < shipLength; i++) {
+            const nextBlockID = blockIDHighlightFunc(i);
+            const nextLineID = lineIDHighlightFunc(i);
+            _gameState[nextLineID][nextBlockID] = blockUpdater(_gameState[nextLineID][nextBlockID], direction, i === 0, i === shipLength - 1);
+        }
+        return _gameState;
+    }
 
     const onDirectionChange = (e: KeyboardEvent) => {
-        const [lineID, blockID] = previousLineIDBlockID;
+        // Previous LineID and BlockID here is considered as current line and block ID
+        const [cLineID, cBlockID] = previousLineIDBlockID;
         // Cannot change direction if there's no highlighted block and valid key is pressed
-        if (lineID !== -1 && blockID !== -1 && !isEmpty(getDirection(e.key))) {
-            const _gameState = [...gameState];
-            const currentBlock = _gameState[lineID][blockID];
+        if (cLineID !== -1 && cBlockID !== -1 && !isEmpty(getDirection(e.key))) {
+            let _gameState = [...gameState];
+            const currentBlock = _gameState[cLineID][cBlockID];
             // Cannot highlight already active block
-            if (!currentBlock.on) {
+            if (!currentBlock.on) { 
                 const currentShipLength = 4;
                 const previousShipLength = 4;
                 const direction: TShipDirection = getDirection(e.key);
 
-                //#region Reseting existing hightlighted blocks
-                const lineIDResetFunc = getNextLineID(currentDirection, lineID);
-                const blockIDresetFunc = getNextBlockID(currentDirection, blockID);
-
-                for (let i = 0; i < previousShipLength; i++) {
-                    const nextBlockID = blockIDresetFunc(i);
-                    const nextLineID = lineIDResetFunc(i);
-                    _gameState[nextLineID][nextBlockID] = resetBlock(_gameState[nextLineID][nextBlockID]);
-                }
+                //#region Checking for out of bounds future line and block ID
+                const isNotOutOfBounds = isOutOfBounds(_gameState, direction, currentShipLength, cLineID, cBlockID);
                 //#endregion
 
-                //#region Highlighting new blocks with new direction
-                const lineIDHighlightFunc = getNextLineID(direction, lineID);
-                const blockIDHighlightFunc = getNextBlockID(direction, blockID);
+                //Bug: multi-key press causes weird _gameState changes
+                if (isNotOutOfBounds) {
+                    //#region Reseting existing hightlighted blocks
+                    console.log('reset', e.key)
+                    _gameState = updateBoard(_gameState, currentDirection, cLineID, cBlockID, previousShipLength, resetBlock);
+                    //#endregion
 
-                for (let i = 0; i < currentShipLength; i++) {
-                    const nextBlockID = blockIDHighlightFunc(i);
-                    const nextLineID = lineIDHighlightFunc(i);
-                    _gameState[nextLineID][nextBlockID] = highlightBlock(_gameState[nextLineID][nextBlockID], direction, i === 0, i === currentShipLength - 1);
+                    //#region Highlighting new blocks with new direction
+                    console.log('highlight', e.key, _gameState);
+                    _gameState = updateBoard(_gameState, direction, cLineID, cBlockID, currentShipLength, highlightBlock);
+                    //#endregion
+
+                    setGameState([..._gameState]);
+                    setCurrentDirection(direction);
                 }
-                //#endregion
-
-                setGameState([..._gameState]);
-                setCurrentDirection(direction);
             }
         }
-    }
+    };
 
     useEffect(() => {
         document.addEventListener('keydown', onDirectionChange)
@@ -245,29 +277,29 @@ const Gameboard = ({ name = '' }: { name?: string }): JSX.Element => {
     }, [onDirectionChange]);
 
     const onBlockHover = (blockID: number, lineID: number) => {
-        const _gameState = [...gameState];
+        let _gameState = [...gameState];
         const currentBlock = _gameState[lineID][blockID];
         if (!currentBlock.on) {
             const currentShipLength = 4;
             const previousShipLength = 4;
 
-            const [pLineID, pBlockID] = previousLineIDBlockID;
+            const isNotOutOfBounds = isOutOfBounds(_gameState, currentDirection, currentShipLength, lineID, blockID);
 
-            if (pLineID !== -1 && pBlockID !== -1) {
-                for (let i = 0; i < previousShipLength; i++) {
-                    _gameState[pLineID + i][pBlockID] = resetBlock(_gameState[pLineID + i][pBlockID]);
+            //TODO: Blocks are not highlighted if hover position is valid 
+            //      but end position is not within box limits 
+            if (isNotOutOfBounds) {
+                const [pLineID, pBlockID] = previousLineIDBlockID;
+
+                if (pLineID !== -1 && pBlockID !== -1) {
+                    _gameState = updateBoard(_gameState, currentDirection, pLineID, pBlockID, previousShipLength, resetBlock)
                 }
+
+                _gameState = updateBoard(_gameState, currentDirection, lineID, blockID, currentShipLength, highlightBlock);
+
+                setGameState([..._gameState]);
+                setPreviousLineIDBlockID([lineID, blockID]);
             }
 
-            for (let i = 0; i < currentShipLength; i++) {
-                _gameState[lineID + i][blockID].highlight = true;
-                _gameState[lineID + i][blockID].start = i === 0;
-                _gameState[lineID + i][blockID].end = i === currentShipLength - 1;
-                _gameState[lineID + i][blockID].direction = "up";
-            }
-
-            setGameState([..._gameState]);
-            setPreviousLineIDBlockID([lineID, blockID]);
         }
     }
 
