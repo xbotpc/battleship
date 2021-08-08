@@ -75,128 +75,117 @@ const resetBlock = (block: TShipBlock) => {
 }
 
 const Gameboard = ({ name = '' }: { name?: string }): JSX.Element => {
-    const [gameState, setGameState] = useState<TGameState>([
-        [
-            { on: true, direction: "left", start: true, end: false, hit: true, highlight: false },
-            { on: true, direction: "left", start: false, end: false, hit: false, highlight: false },
-            { on: true, direction: "left", start: false, end: false, hit: false, highlight: false },
-            { on: true, direction: "left", start: false, end: true, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
-        ],
-        [
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
-        ],
-        [
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
-        ],
-        [
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
-        ],
-        [
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
-        ],
-        [
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
-        ],
-        [
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
-        ],
-        [
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
-        ],
-        [
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
-        ],
-        [
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
-            { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
-        ]
-    ]);
+    const [gameState, setGameState] = useState<TGameState>([[
+        { on: true, direction: "left", start: true, end: false, hit: true, highlight: false },
+        { on: true, direction: "left", start: false, end: false, hit: false, highlight: false },
+        { on: true, direction: "left", start: false, end: false, hit: false, highlight: false },
+        { on: true, direction: "left", start: false, end: true, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
+    ], [
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
+    ], [
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
+    ], [
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
+    ], [
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
+    ], [
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
+    ], [
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
+    ], [
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
+    ], [
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
+    ], [
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false },
+        { on: false, direction: "", start: false, end: false, hit: false, highlight: false }
+    ]]);
     const [previousLineIDBlockID, setPreviousLineIDBlockID] = useState<Array<number>>([-1, -1]);
     const [currentDirection, setCurrentDirection] = useState<TShipDirection>('up');
 
@@ -241,7 +230,7 @@ const Gameboard = ({ name = '' }: { name?: string }): JSX.Element => {
             let _gameState = [...gameState];
             const currentBlock = _gameState[cLineID][cBlockID];
             // Cannot highlight already active block
-            if (!currentBlock.on) { 
+            if (!currentBlock.on) {
                 const currentShipLength = 4;
                 const previousShipLength = 4;
                 const direction: TShipDirection = getDirection(e.key);

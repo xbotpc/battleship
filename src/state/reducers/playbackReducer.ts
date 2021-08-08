@@ -1,18 +1,18 @@
-import { InitialPlaybackState } from "../../types/initialPlaybackState";
 import { ACTIONS } from '../actions';
-import { playbackState } from "../initialState";
 
 interface Action {
     type: string,
     payload: any
 }
 
-const audioReducer = (state = playbackState, { type = '', payload }: Action): InitialPlaybackState => {
+const initialState = {}
+
+const audioReducer = (state = initialState, { type = '', payload }: Action): typeof initialState => {
     switch (type) {
-        case ACTIONS.PLAY_PAUSE:
+        case ACTIONS.SAMPLE_ACTION:
             return {
                 ...state,
-                currentAudio: payload
+                someData: payload.someData
             }
 
         default:
