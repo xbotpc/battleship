@@ -6,6 +6,8 @@ type TShipBlock = {
     start: boolean;
     end: boolean;
     hit: boolean;
+    mark: boolean;
+    miss: boolean;
     highlight: boolean;
 }
 
