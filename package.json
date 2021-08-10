@@ -1,17 +1,17 @@
 {
-  "name": "xbotpc-react-redux-ts-pwa-template",
+  "name": "battleship",
   "author": {
     "name": "Piyush Choughule",
     "email": "piyush2396@gmail.com"
   },
-  "description": "Template for making initializing new React-Redux projects with Typescript and PWA functionality.",
+  "description": "Classic Battleship Game on your desktop",
   "repository": {
-    "url": "https://github.com/xbotpc/react-redux-pwa-ts-template",
+    "url": "https://github.com/xbotpc/battleship-ui",
     "type": "git"
   },
   "license": "MIT",
-  "displayName": "React-Redux-TS-PWA Template by xbotpc",
-  "homepage": "https://xbotpc.github.io/react-redux-pwa-ts-template/",
+  "displayName": "Classic battleship Game by xbotpc",
+  "homepage": "https://xbotpc.github.io/battleship/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
