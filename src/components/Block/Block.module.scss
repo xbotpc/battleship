@@ -21,8 +21,13 @@
         align-items    : center;
         justify-content: center;
 
+        svg {
+            width : 100%;
+            height: 100%;
+        }
+
         &.isActive {
-            background-color: #cacbd8;
+            background-color: #9e9e9e;
         }
 
         &.isHighlighted {
@@ -105,7 +110,7 @@
             height          : 43.35%;
             width           : 43.35%;
             border-radius   : 50%;
-            background-color: #898687;
+            background-color: #4b4849;
 
             &.hit {
                 background-color: #fd004c;

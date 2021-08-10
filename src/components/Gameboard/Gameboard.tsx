@@ -28,6 +28,7 @@ const Gameboard = ({ name = '', type = 'self', gameState, onBlockHover, onBlockC
                                     direction={block.direction}
                                     start={block.start}
                                     end={block.end}
+                                    miss={block.miss}
                                     hit={block.hit}
                                     onHover={() => onBlockHover(type, lineID, blockID)}
                                 />

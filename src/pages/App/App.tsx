@@ -464,9 +464,9 @@ function App(): JSX.Element {
       fleetUpdateFunction = setYourFleet;
     }
 
-    const switchOn: TBlockUpdaterFunction = (aa: TShipBlock) => {
+    const switchOn: TBlockUpdaterFunction = (block: TShipBlock) => {
       return {
-        ...aa,
+        ...block,
         on: true,
         highlight: false,
         hit: false,
